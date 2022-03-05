@@ -1,10 +1,15 @@
-FROM amazonlinux:latest
-#ADD amzn2-container-raw-2.0.20220121.0-x86_64.tar.xz /
+#FROM amazonlinux:latest
+
+FROM amazon/aws-cli:latest
 
 RUN yum update -y
 RUN yum install -y java-1.8.0-openjdk.x86_64 jq.x86_64
 RUN mkdir /springCloud
 
 COPY target/eureka*.jar /springCloud/
+COPY src/main/resources/env.sh /springCloud/
 
-CMD ["/bin/bash"]
+RUN chmod +x /springCloud/env.sh
+
+#CMD ["/bin/sh"]
+#ENTRYPOINT ["/springCloud/env.sh"]
