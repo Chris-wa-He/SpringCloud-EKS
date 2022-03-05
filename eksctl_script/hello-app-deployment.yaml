@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-app
+  labels:
+    app: hello-app
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hello-app
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: hello-app
+    spec:
+      serviceAccountName: spring-cloud
+      containers:
+      - image: 328169871404.dkr.ecr.us-east-1.amazonaws.com/hello-app-eks:latest
+        imagePullPolicy: Always
+        name: hello-app
+        command: ["/bin/sh","-c"]
+        args: ["/springCloud/env.sh"]
+        # command: ["/bin/sh","-c","while : ; do date >> /tmp/test.txt; sleep 1; done;"]
+        ports:
+        - containerPort: 8080
+          protocol: TCP

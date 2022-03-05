@@ -37,3 +37,6 @@
 *.zip
 *.tar.gz
 *.rar
+
+# Mac index #
+.DS_Store
