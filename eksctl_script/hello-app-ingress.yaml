@@ -1,0 +1,22 @@
+# AWS Load Balancer Controller installation reference: https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.3/deploy/installation/
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hello-app-ingress
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80}]'
+spec:
+  rules:
+    - http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: hello-app-nlb
+              port:
+                number: 8080

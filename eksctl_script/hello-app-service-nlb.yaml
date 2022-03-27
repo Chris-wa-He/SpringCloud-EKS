@@ -1,0 +1,19 @@
+# AWS Load Balancer Controller installation reference: https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.3/deploy/installation/
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-app-nlb
+  annotations: 
+    service.beta.kubernetes.io/aws-load-balancer-type: "external"
+    service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
+    service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: "ip"
+spec:
+  selector:
+    app: hello-app
+  type: LoadBalancer
+  ports:
+   -  protocol: TCP
+      port: 8080
+      targetPort: 8080
+
