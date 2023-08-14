@@ -1,0 +1,49 @@
+---
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: eksworkshop-eksctl
+  region: us-east-1
+  version: "1.25"
+
+# availabilityZones: ["us-east-1a", "us-east-1b", "us-east-1c"]
+vpc:
+  subnets:
+    private:
+      us-east-1a: { id: subnet-095f11133df32d1b6 }
+      us-east-1b: { id: subnet-08463bdcb32837cc1 }
+    public:
+      us-east-1a: { id: subnet-01e3bfa19bf95a40c }
+      us-east-1b: { id: subnet-0a7ff1515b2bba087 }
+
+managedNodeGroups:
+  - name: front-end
+    labels: { type: front-end }
+    desiredCapacity: 2
+    instanceType: t3.medium
+    privateNetworking: false
+    ssh:
+      enableSsm: true
+  - name: cpu-nodes
+    labels: { type: cpu }
+    desiredCapacity: 2
+    instanceType: t3.small
+    privateNetworking: true
+    ssh:
+      enableSsm: true
+  - name: gpu-nodes
+    labels: { type: gpu }
+    desiredCapacity: 2
+    instanceType: t3.medium
+    privateNetworking: true
+    ssh:
+      enableSsm: true
+
+# To enable all of the control plane logs, uncomment below:
+# cloudWatch:
+#  clusterLogging:
+#    enableTypes: ["*"]
+
+secretsEncryption:
+  keyARN: arn:aws:kms:us-east-1:031665789495:key/232621c2-da92-41d5-8028-eb296e47a1a1

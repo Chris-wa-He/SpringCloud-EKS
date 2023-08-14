@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: eks-eureka-2
+spec:
+  selector:
+    app: eks-eureka-2
+  type: LoadBalancer
+  ports:
+   -  protocol: TCP
+      port: 8761
+      targetPort: 8761
